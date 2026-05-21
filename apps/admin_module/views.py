@@ -44,7 +44,7 @@ class StaffDetailView(APIView):
 class StaffDeactivateView(APIView):
     def patch(self, request, staffId):
         staff = get_object_or_404(TblStaff, StaffId=staffId)
-        staff.IsActive = False
+        staff.is_active = False
         staff.save()
         return Response({"message": "Staff member deactivated successfully"}, status=status.HTTP_200_OK)
 

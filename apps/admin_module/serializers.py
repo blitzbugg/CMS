@@ -20,7 +20,7 @@ class TblStaffSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TblStaff
-        fields = ['StaffId', 'Name', 'Contact', 'Gender', 'Address', 'Salary', 'EmpID', 'Username', 'Password', 'RoleId', 'RoleName', 'IsActive']
+        fields = ['StaffId', 'Name', 'Contact', 'Gender', 'Address', 'Salary', 'EmpID', 'Username', 'Password', 'RoleId', 'RoleName', 'is_active']
 
     def validate_Contact(self, value):
         if not re.match(r'^\d{10}$', value):
@@ -40,7 +40,7 @@ class TblStaffSerializer(serializers.ModelSerializer):
             Salary=validated_data.get('Salary', 0.00),
             EmpID=validated_data.get('EmpID', ''),
             RoleId=validated_data.get('RoleId'),
-            IsActive=validated_data.get('IsActive', True)
+            is_active=validated_data.get('is_active', True)
         )
         return staff
 

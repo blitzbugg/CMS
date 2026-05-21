@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
 
 class TblRole(models.Model):
     RoleId = models.AutoField(primary_key=True)
@@ -20,6 +21,8 @@ class TblStaffManager(BaseUserManager):
         return user
 
     def create_superuser(self, Username, Password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)       # <-- add this
+        extra_fields.setdefault('is_superuser', True)   # <-- add this
         role, _ = TblRole.objects.get_or_create(RoleName='Administrator')
         extra_fields.setdefault('RoleId', role)
         extra_fields.setdefault('Name', Username)
@@ -31,45 +34,32 @@ class TblStaffManager(BaseUserManager):
         return self.create_user(Username, Password, **extra_fields)
 
 
-
-class TblStaff(AbstractBaseUser):
-    StaffId = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=255)
-    Contact = models.CharField(max_length=20)
-    Gender = models.CharField(max_length=10)
-    Address = models.TextField()
-    Salary = models.DecimalField(max_digits=10, decimal_places=2)
-    EmpID = models.CharField(max_length=50, unique=True)
+class TblStaff(AbstractBaseUser, PermissionsMixin):
+    StaffId  = models.AutoField(primary_key=True)
+    Name     = models.CharField(max_length=255)
+    Contact  = models.CharField(max_length=20)
+    Gender   = models.CharField(max_length=10)
+    Address  = models.TextField()
+    Salary   = models.DecimalField(max_digits=10, decimal_places=2)
+    EmpID    = models.CharField(max_length=50, unique=True)
     Username = models.CharField(max_length=150, unique=True)
-    RoleId = models.ForeignKey(TblRole, on_delete=models.PROTECT)
-    IsActive = models.BooleanField(default=True)
+    RoleId   = models.ForeignKey(TblRole, on_delete=models.PROTECT)
+    is_active = models.BooleanField(default=True)
+
+    # PermissionsMixin needs these as real DB columns
+    is_staff     = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
     objects = TblStaffManager()
 
-    USERNAME_FIELD = 'Username'
+    USERNAME_FIELD  = 'Username'
     REQUIRED_FIELDS = ['Name', 'EmpID']
 
-    @property
-    def is_active(self):
-        return self.IsActive
-
-    @is_active.setter
-    def is_active(self, value):
-        self.IsActive = value
-
-    @property
-    def is_staff(self):
-        return True
-
-    @property
-    def is_superuser(self):
-        return self.RoleId.RoleName == 'Administrator'
-
     def has_perm(self, perm, obj=None):
-        return True
+        return self.is_superuser
 
     def has_module_perms(self, app_label):
-        return True
+        return self.is_superuser
 
     @property
     def id(self):
@@ -80,7 +70,7 @@ class TblStaff(AbstractBaseUser):
 
 
 class TblSpecialization(models.Model):
-    SpecializationId = models.AutoField(primary_key=True)
+    SpecializationId   = models.AutoField(primary_key=True)
     SpecializationName = models.CharField(max_length=255)
 
     def __str__(self):
@@ -88,11 +78,11 @@ class TblSpecialization(models.Model):
 
 
 class TblDoctor(models.Model):
-    DoctorId = models.AutoField(primary_key=True)
-    StaffId = models.OneToOneField(TblStaff, on_delete=models.CASCADE)
+    DoctorId         = models.AutoField(primary_key=True)
+    StaffId          = models.OneToOneField(TblStaff, on_delete=models.CASCADE)
     SpecializationId = models.ForeignKey(TblSpecialization, on_delete=models.PROTECT)
-    ConsultationFee = models.DecimalField(max_digits=10, decimal_places=2)
-    IsActive = models.BooleanField(default=True)
+    ConsultationFee  = models.DecimalField(max_digits=10, decimal_places=2)
+    IsActive         = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Dr. {self.StaffId.Name}"
