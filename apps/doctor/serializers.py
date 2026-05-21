@@ -18,4 +18,4 @@ class TblLabTestPrescriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TblLabTestPrescription
-        fields = ['LabTestPrescriptionId', 'AppointmentId', 'LabTestId', 'TestName', 'Instructions', 'LabTestValue', 'Remarks', 'IsActive']
+        fields = ['LabTestPrescriptionId', 'AppointmentId', 'LabTestId', 'TestName', 'Instructions', 'LabTestValue', 'Remarks', 'is_active']

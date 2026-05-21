@@ -11,27 +11,27 @@ class TblRole(models.Model):
 
 
 class TblStaffManager(BaseUserManager):
-    def create_user(self, Username, Password=None, **extra_fields):
-        if not Username:
+    def create_user(self, username, password=None, **extra_fields):
+        if not username:
             raise ValueError('The Username field must be set')
-        user = self.model(Username=Username, **extra_fields)
-        if Password:
-            user.set_password(Password)
+        user = self.model(Username=username, **extra_fields)
+        if password:
+            user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, Username, Password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)       # <-- add this
-        extra_fields.setdefault('is_superuser', True)   # <-- add this
+    def create_superuser(self, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
         role, _ = TblRole.objects.get_or_create(RoleName='Administrator')
         extra_fields.setdefault('RoleId', role)
-        extra_fields.setdefault('Name', Username)
+        extra_fields.setdefault('Name', username)
         extra_fields.setdefault('Contact', '0000000000')
         extra_fields.setdefault('Gender', 'Male')
         extra_fields.setdefault('Address', 'System Generated Superuser')
         extra_fields.setdefault('Salary', 0.00)
-        extra_fields.setdefault('EmpID', f"EMP-SU-{Username}")
-        return self.create_user(Username, Password, **extra_fields)
+        extra_fields.setdefault('EmpID', f"EMP-SU-{username}")
+        return self.create_user(username, password, **extra_fields)
 
 
 class TblStaff(AbstractBaseUser, PermissionsMixin):

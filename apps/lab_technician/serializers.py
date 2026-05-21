@@ -13,5 +13,5 @@ class TblLabTestResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TblLabTestPrescription
-        fields = ['LabTestPrescriptionId', 'AppointmentId', 'LabTestId', 'TestName', 'Instructions', 'LabTestValue', 'Remarks', 'IsActive']
+        fields = ['LabTestPrescriptionId', 'AppointmentId', 'LabTestId', 'TestName', 'Instructions', 'LabTestValue', 'Remarks', 'is_active']
         read_only_fields = ['AppointmentId', 'LabTestId', 'Instructions']

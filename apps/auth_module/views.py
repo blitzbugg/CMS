@@ -22,7 +22,7 @@ class LoginView(APIView):
 
         try:
             staff = TblStaff.objects.get(Username=username)
-            if not staff.IsActive:
+            if not staff.is_active:
                 return Response(
                     {"error": "Deactivated account. Access denied."},
                     status=status.HTTP_401_UNAUTHORIZED

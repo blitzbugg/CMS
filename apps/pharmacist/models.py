@@ -7,7 +7,7 @@ class TblMedicine(models.Model):
     ManufacturingDate = models.DateField()
     ExpiryDate = models.DateField()
     Unit = models.CharField(max_length=50)
-    IsActive = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.MedicineName

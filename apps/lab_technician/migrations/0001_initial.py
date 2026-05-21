@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('Amount', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('ReferenceRanges', models.TextField()),
                 ('SampleType', models.CharField(max_length=100)),
-                ('IsActive', models.BooleanField(default=True)),
+                ('is_active', models.BooleanField(default=True)),
             ],
         ),
     ]

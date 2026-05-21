@@ -63,7 +63,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 | Username    | CharField   | Unique                        |
 | Password    | CharField   | Store hashed (use Django's make_password) |
 | RoleId      | ForeignKey  | → TblRole                     |
-| IsActive    | BooleanField| Default True                  |
+| is_active    | BooleanField| Default True                  |
 
 ### TblSpecialization
 | Field              | Type        |
@@ -78,7 +78,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 | StaffId          | OneToOneField | → TblStaff            |
 | SpecializationId | ForeignKey  | → TblSpecialization     |
 | ConsultationFee  | DecimalField|                         |
-| IsActive         | BooleanField| Default True            |
+| is_active         | BooleanField| Default True            |
 
 ### TblMembership
 | Field          | Type        |
@@ -137,7 +137,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 | Dosage         | CharField   |                             |
 | Frequency      | CharField   |                             |
 | Duration       | CharField   |                             |
-| IsActive       | BooleanField| Default True                |
+| is_active       | BooleanField| Default True                |
 
 ### TblLabTestPrescription
 | Field                    | Type        | Notes                      |
@@ -148,7 +148,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 | Instructions             | TextField   | Optional                   |
 | LabTestValue             | CharField   | Filled by lab technician   |
 | Remarks                  | TextField   | Optional, filled by lab tech|
-| IsActive                 | BooleanField| Default True               |
+| is_active                 | BooleanField| Default True               |
 
 ### TblMedicine
 | Field               | Type        | Notes                   |
@@ -159,7 +159,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 | ManufacturingDate   | DateField   |                         |
 | ExpiryDate          | DateField   |                         |
 | Unit                | CharField   |                         |
-| IsActive            | BooleanField| Default True            |
+| is_active            | BooleanField| Default True            |
 
 ### TblMedicineStock
 | Field           | Type        | Notes                   |
@@ -178,7 +178,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 | Amount          | DecimalField|                         |
 | ReferenceRanges | TextField   |                         |
 | SampleType      | CharField   |                         |
-| IsActive        | BooleanField| Default True            |
+| is_active        | BooleanField| Default True            |
 
 ---
 
@@ -187,7 +187,7 @@ Define these models. Use SQLite-compatible field types. All IDs are auto-generat
 - Use JWT (`djangorestframework-simplejwt`)
 - Login returns `access` and `refresh` tokens
 - All endpoints except `/api/auth/login` require a valid Bearer token
-- Deactivated staff (`IsActive = False`) must be blocked from logging in
+- Deactivated staff (`is_active = False`) must be blocked from logging in
 - Seed the following default roles on first run (use a data migration or management command):
   - Administrator
   - Receptionist
@@ -221,7 +221,7 @@ Implement all endpoints listed below. Use DRF `APIView` or `ViewSet`. Return JSO
 | GET    | `/api/staff`                           | List all staff (supports filter by name or role) |
 | GET    | `/api/staff/{staffId}`                 | Get staff by ID         |
 | PUT    | `/api/staff/{staffId}`                 | Update staff            |
-| PATCH  | `/api/staff/{staffId}/deactivate`      | Deactivate staff (soft delete, IsActive=0) |
+| PATCH  | `/api/staff/{staffId}/deactivate`      | Deactivate staff (soft delete, is_active=0) |
 
 #### Doctors
 | Method | URL                                     | Description                  |
@@ -355,13 +355,13 @@ Implement all endpoints listed below. Use DRF `APIView` or `ViewSet`. Return JSO
 
 1. **Token Number**: When scheduling an appointment, auto-generate a `TokenNumber` by counting existing appointments for the same doctor on the same date and incrementing by 1.
 
-2. **Doctor availability**: Before booking an appointment, check that the doctor is active (`IsActive = True` in TblDoctor).
+2. **Doctor availability**: Before booking an appointment, check that the doctor is active (`is_active = True` in TblDoctor).
 
-3. **Deactivated staff cannot log in**: During login, check `IsActive` on TblStaff. Return 401 if inactive.
+3. **Deactivated staff cannot log in**: During login, check `is_active` on TblStaff. Return 401 if inactive.
 
 4. **Consultation Fee in Billing**: When generating a bill (`POST /api/billing`), auto-pull the `ConsultationFee` from TblDoctor based on the appointment's DoctorId.
 
-5. **Soft Deletes**: Never hard-delete anything. Use `IsActive = False` for staff, doctors, medicines, and lab tests.
+5. **Soft Deletes**: Never hard-delete anything. Use `is_active = False` for staff, doctors, medicines, and lab tests.
 
 6. **Multiple prescriptions per appointment**: Both `TblMedicinePrescription` and `TblLabTestPrescription` support multiple rows per `AppointmentId`.
 

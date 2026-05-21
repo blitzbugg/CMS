@@ -60,4 +60,4 @@ class TblDoctorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TblDoctor
-        fields = ['DoctorId', 'StaffId', 'StaffDetails', 'SpecializationId', 'SpecializationName', 'ConsultationFee', 'IsActive']
+        fields = ['DoctorId', 'StaffId', 'StaffDetails', 'SpecializationId', 'SpecializationName', 'ConsultationFee', 'is_active']

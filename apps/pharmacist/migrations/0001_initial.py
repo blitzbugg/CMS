@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('ManufacturingDate', models.DateField()),
                 ('ExpiryDate', models.DateField()),
                 ('Unit', models.CharField(max_length=50)),
-                ('IsActive', models.BooleanField(default=True)),
+                ('is_active', models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(

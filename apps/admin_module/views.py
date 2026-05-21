@@ -52,7 +52,7 @@ class StaffDeactivateView(APIView):
 # Doctor Views
 class DoctorListCreateView(APIView):
     def get(self, request):
-        queryset = TblDoctor.objects.filter(IsActive=True)
+        queryset = TblDoctor.objects.filter(is_active=True)
         serializer = TblDoctorSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -82,7 +82,7 @@ class DoctorDetailView(APIView):
 class DoctorDeactivateView(APIView):
     def patch(self, request, doctorId):
         doctor = get_object_or_404(TblDoctor, DoctorId=doctorId)
-        doctor.IsActive = False
+        doctor.is_active = False
         doctor.save()
         return Response({"message": "Doctor deactivated successfully"}, status=status.HTTP_200_OK)
 
