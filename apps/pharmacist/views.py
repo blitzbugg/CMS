@@ -8,7 +8,7 @@ from apps.pharmacist.serializers import TblMedicineSerializer, TblMedicineStockS
 # Medicine Views
 class MedicineListCreateView(APIView):
     def get(self, request):
-        queryset = TblMedicine.objects.filter(is_active=True)
+        queryset = TblMedicine.objects.filter(IsActive=True)
         serializer = TblMedicineSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -38,7 +38,7 @@ class MedicineDetailView(APIView):
 class MedicineDeactivateView(APIView):
     def patch(self, request, medicineId):
         medicine = get_object_or_404(TblMedicine, MedicineId=medicineId)
-        medicine.is_active = False
+        medicine.IsActive = False
         medicine.save()
         return Response({"message": "Medicine deactivated successfully"}, status=status.HTTP_200_OK)
 

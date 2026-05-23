@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ('Salary', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('EmpID', models.CharField(max_length=50, unique=True)),
                 ('Username', models.CharField(max_length=150, unique=True)),
-                ('is_active', models.BooleanField(default=True)),
+                ('IsActive', models.BooleanField(default=True)),
                 ('is_staff', models.BooleanField(default=False)),
                 ('is_superuser', models.BooleanField(default=False)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('DoctorId', models.AutoField(primary_key=True, serialize=False)),
                 ('ConsultationFee', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('is_active', models.BooleanField(default=True)),
+                ('IsActive', models.BooleanField(default=True)),
                 ('StaffId', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('SpecializationId', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='admin_module.tblspecialization')),
             ],

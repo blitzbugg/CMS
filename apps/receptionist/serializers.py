@@ -33,7 +33,7 @@ class TblAppointmentSerializer(serializers.ModelSerializer):
 
     def validate_DoctorId(self, value):
         # Business Rule 2: Doctor availability check
-        if not value.is_active:
+        if not value.IsActive:
             raise serializers.ValidationError("Selected doctor is not active.")
         return value
 

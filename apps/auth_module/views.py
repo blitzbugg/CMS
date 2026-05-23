@@ -22,7 +22,7 @@ class LoginView(APIView):
 
         try:
             staff = TblStaff.objects.get(Username=username)
-            if not staff.is_active:
+            if not staff.IsActive:
                 return Response(
                     {"error": "Deactivated account. Access denied."},
                     status=status.HTTP_401_UNAUTHORIZED
@@ -34,7 +34,8 @@ class LoginView(APIView):
             )
 
         # Authenticate staff
-        user = authenticate(Username=username, password=password)
+        # Django auth backends expect the credential key `username` (even when USERNAME_FIELD differs).
+        user = authenticate(request, username=username, password=password)
         if user is None:
             return Response(
                 {"error": "Invalid username or password"},

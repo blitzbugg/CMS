@@ -1,4 +1,4 @@
-# Generated migration to rename is_active to is_active for Django auth compatibility
+# Generated migration to rename IsActive to IsActive for Django auth compatibility
 
 from django.db import migrations, models
 
@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameField(
             model_name='tblstaff',
-            old_name='is_active',
-            new_name='is_active',
+            old_name='IsActive',
+            new_name='IsActive',
         ),
     ]

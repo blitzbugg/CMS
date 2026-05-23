@@ -9,7 +9,7 @@ from apps.lab_technician.serializers import TblLabTestSerializer, TblLabTestResu
 # Lab Test Views
 class LabTestListCreateView(APIView):
     def get(self, request):
-        queryset = TblLabTest.objects.filter(is_active=True)
+        queryset = TblLabTest.objects.filter(IsActive=True)
         serializer = TblLabTestSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -39,7 +39,7 @@ class LabTestDetailView(APIView):
 class LabTestDeactivateView(APIView):
     def patch(self, request, labTestId):
         lab_test = get_object_or_404(TblLabTest, LabTestId=labTestId)
-        lab_test.is_active = False
+        lab_test.IsActive = False
         lab_test.save()
         return Response({"message": "Lab test deactivated successfully"}, status=status.HTTP_200_OK)
 
@@ -47,7 +47,7 @@ class LabTestDeactivateView(APIView):
 # Lab Results Views
 class LabTestResultAppointmentView(APIView):
     def get(self, request, appointmentId):
-        queryset = TblLabTestPrescription.objects.filter(AppointmentId=appointmentId, is_active=True)
+        queryset = TblLabTestPrescription.objects.filter(AppointmentId=appointmentId, IsActive=True)
         serializer = TblLabTestResultSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -56,7 +56,7 @@ class LabTestResultListView(APIView):
     def get(self, request):
         start_date = request.query_params.get('startDate')
         end_date = request.query_params.get('endDate')
-        queryset = TblLabTestPrescription.objects.filter(is_active=True)
+        queryset = TblLabTestPrescription.objects.filter(IsActive=True)
         if start_date and end_date:
             queryset = queryset.filter(AppointmentId__AppointmentDate__range=[start_date, end_date])
         elif start_date:
@@ -80,6 +80,6 @@ class LabTestResultRecordView(APIView):
 class LabTestPrescriptionDeactivateView(APIView):
     def patch(self, request, labTestPrescriptionId):
         prescription = get_object_or_404(TblLabTestPrescription, LabTestPrescriptionId=labTestPrescriptionId)
-        prescription.is_active = False
+        prescription.IsActive = False
         prescription.save()
         return Response({"message": "Lab test prescription entry deactivated successfully"}, status=status.HTTP_200_OK)

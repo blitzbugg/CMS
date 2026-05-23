@@ -63,21 +63,21 @@ class MedicinePrescriptionDetailView(APIView):
 
 class MedicinePrescriptionAppointmentListView(APIView):
     def get(self, request, appointmentId):
-        queryset = TblMedicinePrescription.objects.filter(AppointmentId=appointmentId, is_active=True)
+        queryset = TblMedicinePrescription.objects.filter(AppointmentId=appointmentId, IsActive=True)
         serializer = TblMedicinePrescriptionSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class MedicinePrescriptionPatientListView(APIView):
     def get(self, request, patientId):
-        queryset = TblMedicinePrescription.objects.filter(AppointmentId__PatientId=patientId, is_active=True)
+        queryset = TblMedicinePrescription.objects.filter(AppointmentId__PatientId=patientId, IsActive=True)
         serializer = TblMedicinePrescriptionSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class MedicinePrescriptionDoctorListView(APIView):
     def get(self, request, doctorId):
-        queryset = TblMedicinePrescription.objects.filter(AppointmentId__DoctorId=doctorId, is_active=True)
+        queryset = TblMedicinePrescription.objects.filter(AppointmentId__DoctorId=doctorId, IsActive=True)
         serializer = TblMedicinePrescriptionSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -109,13 +109,13 @@ class LabTestPrescriptionDetailView(APIView):
 
 class LabTestPrescriptionAppointmentListView(APIView):
     def get(self, request, appointmentId):
-        queryset = TblLabTestPrescription.objects.filter(AppointmentId=appointmentId, is_active=True)
+        queryset = TblLabTestPrescription.objects.filter(AppointmentId=appointmentId, IsActive=True)
         serializer = TblLabTestPrescriptionSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LabTestPrescriptionPatientListView(APIView):
     def get(self, request, patientId):
-        queryset = TblLabTestPrescription.objects.filter(AppointmentId__PatientId=patientId, is_active=True)
+        queryset = TblLabTestPrescription.objects.filter(AppointmentId__PatientId=patientId, IsActive=True)
         serializer = TblLabTestPrescriptionSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

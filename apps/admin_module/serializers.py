@@ -20,7 +20,7 @@ class TblStaffSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TblStaff
-        fields = ['StaffId', 'Name', 'Contact', 'Gender', 'Address', 'Salary', 'EmpID', 'Username', 'Password', 'RoleId', 'RoleName', 'is_active']
+        fields = ['StaffId', 'Name', 'Contact', 'Gender', 'Address', 'Salary', 'EmpID', 'Username', 'Password', 'RoleId', 'RoleName', 'IsActive']
 
     def validate_Contact(self, value):
         if not re.match(r'^\d{10}$', value):
@@ -31,8 +31,8 @@ class TblStaffSerializer(serializers.ModelSerializer):
         password = validated_data.get('Password')
         # DRF automatically performs unique validation on Username and EmpID because they are marked unique in models
         staff = TblStaff.objects.create_user(
-            Username=validated_data['Username'],
-            Password=password,
+            username=validated_data['Username'],
+            password=password,
             Name=validated_data.get('Name', ''),
             Contact=validated_data.get('Contact', ''),
             Gender=validated_data.get('Gender', ''),
@@ -40,7 +40,7 @@ class TblStaffSerializer(serializers.ModelSerializer):
             Salary=validated_data.get('Salary', 0.00),
             EmpID=validated_data.get('EmpID', ''),
             RoleId=validated_data.get('RoleId'),
-            is_active=validated_data.get('is_active', True)
+            IsActive=validated_data.get('IsActive', True)
         )
         return staff
 
@@ -60,4 +60,4 @@ class TblDoctorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TblDoctor
-        fields = ['DoctorId', 'StaffId', 'StaffDetails', 'SpecializationId', 'SpecializationName', 'ConsultationFee', 'is_active']
+        fields = ['DoctorId', 'StaffId', 'StaffDetails', 'SpecializationId', 'SpecializationName', 'ConsultationFee', 'IsActive']

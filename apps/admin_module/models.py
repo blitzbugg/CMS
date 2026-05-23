@@ -44,7 +44,7 @@ class TblStaff(AbstractBaseUser, PermissionsMixin):
     EmpID    = models.CharField(max_length=50, unique=True)
     Username = models.CharField(max_length=150, unique=True)
     RoleId   = models.ForeignKey(TblRole, on_delete=models.PROTECT)
-    is_active = models.BooleanField(default=True)
+    IsActive = models.BooleanField(default=True)
 
     # PermissionsMixin needs these as real DB columns
     is_staff     = models.BooleanField(default=False)

@@ -18,7 +18,7 @@ class TblMedicinePrescription(models.Model):
     Dosage = models.CharField(max_length=100)
     Frequency = models.CharField(max_length=100)
     Duration = models.CharField(max_length=100)
-    is_active = models.BooleanField(default=True)
+    IsActive = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Prescription {self.PrescriptionId} for Appt {self.AppointmentId_id} - {self.MedicineName}"
@@ -31,7 +31,7 @@ class TblLabTestPrescription(models.Model):
     Instructions = models.TextField(blank=True, null=True)
     LabTestValue = models.CharField(max_length=255, blank=True, null=True)
     Remarks = models.TextField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
+    IsActive = models.BooleanField(default=True)
 
     def __str__(self):
         return f"LabPrescription {self.LabTestPrescriptionId} for Appt {self.AppointmentId_id} - Test {self.LabTestId_id}"
